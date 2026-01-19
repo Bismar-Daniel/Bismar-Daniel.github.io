@@ -1,109 +1,289 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SRA ACERO</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="shortcut icon" href="img/1.png" type="image/x-icon">
-</head>
-<body>
-        
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="shortcut icon" href="img/1.png" type="image/x-icon" />
+    <meta charset="UTF-8" />
+  </head>
+
+  <body>
     <nav class="menu">
-        <section class="menu__container">
-            <img style="width: 64px; height: 64px;" src="img/Only-Logo.png" alt="">
-            <h1 class="menu__logo">Sra Acero y Ott Inmobiliaria</h1>            
+      <section class="menu__container">
+        <img src="img/Only-Logo.png" alt="" class="logo"/>
+        <h1 class="menu__logo">Sra Acero y Ott Inmobiliaria</h1>
 
-            <ul class="menu__links">
-                <li class="menu__item">
-                    <a href="/index.html" class="menu__link">Inicio</a>
-                </li>
-    
-                <li class="menu__item menu__item--show">
-                    <a href="#" class="menu__link">¿Quiénes somos? <img src="icons/arrow.svg" class="menu__arrow"></a>
-    
-                    <ul class="menu__nesting">
-                        <li class="menu__inside">
-                            <a href="#" class="menu__link menu__link--inside">Historia</a>
-                        </li>
-                        <li class="menu__inside">
-                            <a href="#" class="menu__link menu__link--inside">Misión y Visión</a>
-                        </li>
-                    </ul>
-                </li>
+        <ul class="menu__links">
+          <li class="menu__item">
+            <a href="#" class="menu__link inicio ">Inicio</a>
+          </li>
 
-                <li class="menu__item menu__item--show">
-                    <a href="#" class="menu__link">Contactos <img src="icons/arrow.svg" class="menu__arrow"></a>
-    
-                    <ul class="menu__nesting">
-                        <li class="menu__inside">
-                            <a href="#" class="menu__link menu__link--inside">Cintya Acero</a>
-                        </li>
-                        <li class="menu__inside">
-                            <a href="#" class="menu__link menu__link--inside">Limbert Ott</a>
-                        </li>
-                    </ul>
-                </li>
+          <li class="menu__item menu__item--show">
+            <a href="#" class="menu__link nosotros"
+              >¿Quiénes somos? <img src="icons/arrow.svg" class="menu__arrow"
+            /></a>
 
+            <ul class="menu__nesting">
+              <li class="menu__inside">
+                <a href="#" class="menu__link menu__link--inside">Historia</a>
+              </li>
+              <li class="menu__inside">
+                <a href="#" class="menu__link menu__link--inside"
+                  >Misión y Visión</a
+                >
+              </li>
             </ul>
+          </li>
 
-            <div class="menu__hamburguer">
-                <img src="icons/menu.svg" class="menu__img">
-            </div>
-        </section>
+          <li class="menu__item menu__item--show">
+            <a href="#" class="menu__link"
+              >Contactos <img src="icons/arrow.svg" class="menu__arrow"
+            /></a>
+
+            <ul class="menu__nesting">
+              <li class="menu__inside">
+                <a href="#" class="menu__link menu__link--inside"
+                  >Limbert Ott</a
+                >
+              </li>
+              <li class="menu__inside">
+                <a href="#" class="menu__link menu__link--inside"
+                  >Cintya Acero</a
+                >
+              </li>
+            </ul>
+          </li>
+        </ul>
+
+        <div class="menu__hamburguer">
+          <img src="icons/menu.svg" class="menu__img" />
+        </div>
+      </section>
     </nav>
 
     <main>
-        <section id="hero">
-
-            <h1>Bienvenidos a Sra Acero y Ott Inmobiliaria</h1>
-            <p>Somos una empresa dedicada a la venta de terrenos en zonas exclusivas, ofreciendo las mejores opciones para que puedas encontrar el lugar ideal para construir tu hogar o invertir en bienes raíces.</p>
-            <a href="#" class="cta-button">Ver propiedades</a>
-        </section>
+      <section id="hero">
+        <h1>Over The Top</h1>
+        <p>
+          Nos dedicamos a vender terrenos en zonas exclusivas, con los mejores
+          precios y opciones.
+        </p>
+        <a href="#" class="cta-button">Ver terreno</a>
+        <spline-viewer
+          class="robot-3d"
+          url="https://prod.spline.design/RjqeWuyHiYxND6ky/scene.splinecode"
+        ></spline-viewer>
+      </section>
     </main>
 
-    <section id="propiedades">
+    <section class="carrusel-section">
+      <div class="carousel">
+        <h2>Santa Rita</h2>
+        <div class="carrusel-list" id="carrusel-list">
+          <button
+            class="carrusel-arrow carrusel-prev"
+            id="button-prev"
+            data-button="button-prev"
+            onclick="app.processingButton(event)"
+          >
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              data-prefix="fas"
+              data-icon="chevron-left"
+              class="svg-inline--fa fa-chevron-left fa-w-10"
+              role="img"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 320 512"
+            >
+              <path
+                fill="currentColor"
+                d="M34.52 239.03L228.87 44.69c9.37-9.37 24.57-9.37 33.94 0l22.67 22.67c9.36 9.36 9.37 24.52.04 33.9L131.49 256l154.02 154.75c9.34 9.38 9.32 24.54-.04 33.9l-22.67 22.67c-9.37 9.37-24.57 9.37-33.94 0L34.52 272.97c-9.37-9.37-9.37-24.57 0-33.94z"
+              ></path>
+            </svg>
+          </button>
 
-        <h2>Propiedad destacada</h2>
-        <div class="propiedades-grid">
-
-             <div class="propiedades-card">
-                <img src="img/Sector Huatapata (Auquisamaña).jpeg" alt="Sector Huatapata (Auquisamaña)">
-                <h3>Huatapata</h3>
-                <p class="precio">$</p>
-                <p class="descripcion">
-
-                ¿Estás buscando el lugar ideal para construir la casa de tus sueños o una inversión segura en una de las zonas más exclusivas de La Paz? Este terreno ubicado en Huatapata (Auquisamaña) es la elección perfecta.
-
-
-                Cuenta con una ubicación privilegiada, rodeado de naturaleza y con acceso rápido a la ciudad. Está muy cerca del Vibes Sunset Club y del reconocido Pádel de Altura, lo que lo convierte en un lugar ideal para quienes buscan tranquilidad, confort y al mismo tiempo cercanía a espacios recreativos y sociales de primer nivel.
-
-
-                El sector Huatapata se caracteriza por su clima agradable, vistas panorámicas y alta plusvalía, lo que asegura una excelente proyección a futuro. Es un lugar seguro, tranquilo y con fácil acceso a servicios esenciales.
-            
-                </p>
-                <a href="#">Ver más</a>
+          <div class="carrusel-track" id="track">
+            <div class="carrusel">
+              <div>
+                <a href="/">
+                  <h4><small></small></h4>
+                  <picture>
+                    <img src="img/terrenos/Santa-Rita/1.jpeg" alt="" />
+                  </picture>
+                </a>
+              </div>
             </div>
 
+            <div class="carrusel">
+              <div>
+                <a href="/">
+                  <h4><small></small></h4>
+                  <picture>
+                    <img src="img/terrenos/Santa-Rita/2.jpeg" alt="" />
+                  </picture>
+                </a>
+              </div>
+            </div>
+
+            <div class="carrusel">
+              <div>
+                <a href="/">
+                  <h4><small></small></h4>
+                  <picture>
+                    <img src="img/terrenos/Santa-Rita/3.jpeg" alt="" />
+                  </picture>
+                </a>
+              </div>
+            </div>
+
+            <div class="carrusel">
+              <div>
+                <a href="/">
+                  <h4><small></small></h4>
+                  <picture>
+                    <img src="img/terrenos/Santa-Rita/4.jpeg" alt="" />
+                  </picture>
+                </a>
+              </div>
+            </div>
+
+            <div class="carrusel">
+              <div>
+                <a href="/">
+                  <h4><small></small></h4>
+                  <picture>
+                    <img src="img/terrenos/Santa-Rita/5.jpeg" alt="" />
+                  </picture>
+                </a>
+              </div>
+            </div>
+
+            <div class="carrusel">
+              <div>
+                <a href="/">
+                  <h4><small></small></h4>
+                  <picture>
+                    <img src="img/terrenos/Santa-Rita/6.jpeg" alt="" />
+                  </picture>
+                </a>
+              </div>
+            </div>
+
+            <div class="carrusel">
+              <div>
+                <a href="/">
+                  <h4><small></small></h4>
+                  <picture>
+                    <img src="img/terrenos/Santa-Rita/7.jpeg" alt="" />
+                  </picture>
+                </a>
+              </div>
+            </div>
+
+            <div class="carrusel">
+              <div>
+                <a href="/">
+                  <h4><small></small></h4>
+                  <picture>
+                    <img src="img/terrenos/Santa-Rita/8.jpeg" alt="" />
+                  </picture>
+                </a>
+              </div>
+            </div>
+
+            <div class="carrusel">
+              <div>
+                <a href="/">
+                  <h4><small></small></h4>
+                  <picture>
+                    <img src="img/terrenos/Santa-Rita/9.jpeg" alt="" />
+                  </picture>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <button
+            class="carrusel-arrow carrusel-next"
+            id="button-next"
+            data-button="button-next"
+            onclick="app.processingButton(event)"
+          >
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              data-prefix="fas"
+              data-icon="chevron-right"
+              class="svg-inline--fa fa-chevron-right fa-w-10"
+              role="img"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 320 512"
+            >
+              <path
+                fill="currentColor"
+                d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"
+              ></path>
+            </svg>
+          </button>
         </div>
+      </div>
+    </section>
+
+    <section class="rita-info">
+
+      <div class="rita-container">
+
+        <h2>Santa Rita</h2>
+
+        <p>A tan solo 10 minutos de la calle 21 de Calacoto, se ofrece una excelente oportunidad de inversión en terrenos con total seguridad jurídica. Los predios cuentan con documentación completamente al día, tanto en Derechos Reales como en la Alcaldía de Palca, garantizando una compra confiable y sin inconvenientes legales.</p>
+
+      </div>
+
+      <div class="rita-img">
+
+        <img src="img/Only-Logo.png" alt="">
+
+      </div>
+
+      <div class="rita-btn">
+
+        <a href="#" class="cta-button">Ver terreno</a>
+
+      </div>
+
+      <div class="rita-derecha">
+
+        <h3>Mejor tener la llave de tu casa que la cadena del alquiler. </h3>
+
+      </div>
+
+      
 
     </section>
 
     <section id="contacto">
-        <h2>¿Estas interesad@?</h2>
-        <form action="">
-            <input type="text" placeholder="Nombre" required>
-            <input type="email" placeholder="Correo Electrónico" required>
-            <textarea placeholder="Mensaje" required></textarea>
-            <button type="submit">Enviar</button>
-        </form>
+      <h2>¿Estas interesad@?</h2>
+      <form action="">
+        <input type="text" placeholder="Nombre" required />
+        <input type="email" placeholder="Correo Electrónico" required />
+        <textarea placeholder="Mensaje" required></textarea>
+        <button type="submit">Enviar</button>
+      </form>
     </section>
 
     <footer>
-        <p>&copy; Sra Acero y Ott Inmobiliaria. Todos los derechos reservados.</p>
+      <p>&copy; Sra Acero y Ott Inmobiliaria. Todos los derechos reservados.</p>
     </footer>
 
     <script src="js/menu.js"></script>
+    <script src="js/script.js"></script>
 
-</body>
+    <script
+      type="module"
+      src="https://unpkg.com/@splinetool/viewer@1.12.34/build/spline-viewer.js"
+    ></script>
+  </body>
 </html>
