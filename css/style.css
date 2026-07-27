@@ -96,6 +96,7 @@ body{
     width: max-content;
     transform: translateY(100%);
     background-color: #908d87;
+    z-index: 100;
 }
 
 .menu__link--inside{
@@ -187,6 +188,8 @@ body{
     }
 
     .menu__link{
+        display: block;
+        width: 100%;
         padding: 25px 0;
         padding-left: 30px;
         height: auto;
@@ -234,6 +237,12 @@ body{
 #hero h1 {
     font-size: 6rem;
     margin: 0;
+}
+
+#hero h1 span {
+    font-size: 8rem;
+    color: rgb(255, 255, 255);
+    text-decoration: underline;
 }
 
 #hero p {
@@ -671,11 +680,75 @@ form button:hover {
 
 /* Footer */
 
+
 footer {
-    background-color: #722f37;
-    color: white;
-    text-align: center;
-    padding: 1rem;
+  background-color: #61232a;
+  float: inline-end;
+  bottom: 0;
+  width: 100%;
+}
+
+.footer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: #61232a;
+  margin: 10px;
+  padding: 7px 10px;
+}
+
+/* Footer tittle */ 
+
+.footer-tittle {
+  text-align: center;
+  width: 100%;
+  margin: 5px 0; /* reduce espacio arriba */
+}
+
+.footer-tittle h2 {
+  color: #fff;
+  font-size: 34px;
+  margin: 6px 2px; /* reducir separación con el texto */
+}
+
+/* Footer Text */
+
+.footer-text {
+  width: 80%;
+  max-width: 800px;
+  text-align: center;
+}
+
+.footer-text p {
+  color: #fff;
+  font-size: 18px;
+}
+
+/* Footer Redes */
+
+.footer-redes {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-redes a {
+  color: #fff;
+  font-size: 20px;
+  margin: 0 10px;
+}
+
+/* Foooter Down */
+
+.f-down {
+  width: 100%;
+  color: #fff;
+  text-align: center;
+  background-color: #57161e;
+  padding: 5px 0;
 }
 
 @media screen and (max-width: 430px) {
