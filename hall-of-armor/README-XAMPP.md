@@ -9,7 +9,7 @@ El portal está organizado por carpetas según su función:
 - Lógica común: `js/hall.js` y `js/page-shell.js`.
 - Servidor y datos: `api/` y `database/schema.sql`.
 
-La página inicial `index.html` abre `pages/vista-general.html`. En modo demostración, las órdenes, vehículos, inventario, avisos, mensajes y ajustes se guardan en el navegador. Para guardar información en MySQL, sirve la carpeta desde Apache de XAMPP; no abras las páginas con doble clic.
+La página inicial `index.html` abre `pages/vista-general.html`. Al iniciar, las secciones de órdenes, vehículos, inventario, caja, notificaciones, soporte y chat están vacías. Las automatizaciones comienzan apagadas. Sin XAMPP, los registros se guardan solo en el navegador; para una base de datos persistente, sirve la carpeta desde Apache de XAMPP y configura MySQL. No abras las páginas con doble clic.
 
 El hosting de GitHub Pages solo ejecuta los archivos estáticos del sitio; no ejecuta PHP. El API PHP incluido es para el servidor Apache local de XAMPP. En GitHub Pages, utiliza el modo de demostración local del navegador.
 
@@ -28,11 +28,11 @@ El hosting de GitHub Pages solo ejecuta los archivos estáticos del sitio; no ej
 
 6. Abre `http://localhost/app-web/` e inicia sesión con esas credenciales.
 
-El API exige sesión para leer y modificar órdenes y automatizaciones. La base MySQL empieza vacía. Al iniciar sesión, la tabla de órdenes carga desde MySQL; nuevas órdenes y cambios de estado se guardan allí. La interfaz conserva opciones locales para las demás secciones.
+El API exige sesión para leer y modificar órdenes, automatizaciones y movimientos de caja. La base MySQL empieza sin movimientos de caja; el saldo inicial calculado es Bs 0,00. La hoja de caja usa estas cinco columnas y en este orden: Fecha, Motivo, Ingresos, Egresos, Saldo. Los totales y el saldo acumulado se calculan desde los movimientos guardados. Las órdenes y preferencias de otras secciones conservan opciones locales cuando no está conectado el API.
 
 ## Integraciones pendientes
 
-- Google Sheets: configura OAuth/Apps Script en el servidor y limita el acceso a la hoja. La pantalla actual prepara el flujo y permite abrir una URL guardada, pero no envía filas todavía.
+- Google Sheets: configura OAuth/Apps Script en el servidor y limita el acceso a la hoja. La pantalla permite guardar y abrir una URL y exportar movimientos como CSV; el envío automático de filas requiere esas credenciales.
 - Chat en tiempo real: el chat es local al navegador; necesita un servicio WebSocket para sincronizar dispositivos.
 - Automatizaciones físicas: los interruptores guardan preferencias; conectar sensores, actuadores y J.A.R.V.I.S. real requiere hardware y un servicio local.
 - Publicación fuera de localhost: añade HTTPS, protección CSRF, política de contraseñas y permisos de red antes de exponer Apache.
