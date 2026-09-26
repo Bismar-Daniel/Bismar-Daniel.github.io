@@ -11,7 +11,7 @@ El portal está organizado por carpetas según su función:
 
 La página inicial `index.html` abre `pages/vista-general.html`. Al iniciar, las secciones de órdenes, vehículos, inventario, caja, notificaciones, soporte y chat están vacías. Las automatizaciones comienzan apagadas. Sin XAMPP, los registros se guardan solo en el navegador; para una base de datos persistente, sirve la carpeta desde Apache de XAMPP y configura MySQL. No abras las páginas con doble clic.
 
-El hosting de GitHub Pages solo ejecuta los archivos estáticos del sitio; no ejecuta PHP. El API PHP incluido es para el servidor Apache local de XAMPP. En GitHub Pages, utiliza el modo de demostración local del navegador.
+El hosting de GitHub Pages solo ejecuta los archivos estáticos del sitio; no ejecuta PHP. Sin una API común, los datos de GitHub Pages se guardan en el almacenamiento del navegador y solo están disponibles en ese mismo dispositivo y navegador. Para compartir y guardar registros entre varios dispositivos, configura MySQL y una API accesible para todos desde un servidor (XAMPP local solo es accesible desde los dispositivos conectados a esa red, salvo que configures acceso remoto).
 
 ## Preparación de la base de datos
 
