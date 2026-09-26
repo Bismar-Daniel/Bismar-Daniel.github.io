@@ -32,7 +32,7 @@ El API exige sesión para leer y modificar órdenes, automatizaciones y movimien
 
 ## Integraciones pendientes
 
-- Google Sheets: configura OAuth/Apps Script en el servidor y limita el acceso a la hoja. La pantalla permite guardar y abrir una URL y exportar movimientos como CSV; el envío automático de filas requiere esas credenciales.
+- Google Sheets: publica `integrations/google-sheets/Code.gs` como aplicación web y configura la URL `/exec` y el token en la pantalla de caja. Sigue `integrations/google-sheets/README.md`. El envío automático solo funciona después de autorizar y desplegar ese conector.
 - Chat en tiempo real: el chat es local al navegador; necesita un servicio WebSocket para sincronizar dispositivos.
 - Automatizaciones físicas: los interruptores guardan preferencias; conectar sensores, actuadores y J.A.R.V.I.S. real requiere hardware y un servicio local.
 - Publicación fuera de localhost: añade HTTPS, protección CSRF, política de contraseñas y permisos de red antes de exponer Apache.
