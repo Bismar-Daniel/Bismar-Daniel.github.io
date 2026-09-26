@@ -65,6 +65,22 @@ try {
         $stmt=$pdo->prepare('UPDATE automations SET enabled=? WHERE automation_key=?'); $stmt->execute([(int)(bool)$i['enabled'],(string)$i['key']]);
         respond($stmt->rowCount()?200:404,['ok'=>(bool)$stmt->rowCount()]);
     }
+    if ($method === 'GET' && $action === 'cash-flow') {
+        $rows=$pdo->query('SELECT id,movement_date AS date,reason,income,expense FROM cash_movements ORDER BY movement_date,id')->fetchAll();
+        $balance=0.0;
+        foreach ($rows as &$row) { $row['income']=(float)$row['income']; $row['expense']=(float)$row['expense']; $balance += $row['income']-$row['expense']; $row['balance']=$balance; }
+        unset($row); respond(200,['movements'=>$rows]);
+    }
+    if ($method === 'POST' && $action === 'cash-flow') {
+        $i=body(); $date=(string)($i['date']??''); $reason=trim((string)($i['reason']??''));
+        $income=filter_var($i['income']??0,FILTER_VALIDATE_FLOAT); $expense=filter_var($i['expense']??0,FILTER_VALIDATE_FLOAT);
+        $parts=explode('-',$date);
+        if (count($parts)!==3 || !checkdate((int)$parts[1],(int)$parts[2],(int)$parts[0])) respond(422,['error'=>'Fecha inválida']);
+        if ($reason==='' || mb_strlen($reason)>500) respond(422,['error'=>'Motivo requerido (máximo 500 caracteres)']);
+        if ($income===false || $expense===false || $income<0 || $expense<0 || (($income>0)===($expense>0))) respond(422,['error'=>'Ingresa un importe positivo en ingresos o egresos']);
+        $stmt=$pdo->prepare('INSERT INTO cash_movements(movement_date,reason,income,expense) VALUES (?,?,?,?)');
+        $stmt->execute([$date,mb_substr($reason,0,500),$income,$expense]); respond(201,['id'=>(int)$pdo->lastInsertId()]);
+    }
     respond(404,['error'=>'Ruta no encontrada']);
 } catch (Throwable $e) {
     if (isset($pdo) && $pdo->inTransaction()) $pdo->rollBack();

@@ -75,7 +75,19 @@ CREATE TABLE IF NOT EXISTS inventory_items (
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB;
 
+CREATE TABLE IF NOT EXISTS cash_movements (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  movement_date DATE NOT NULL,
+  reason VARCHAR(500) NOT NULL,
+  income DECIMAL(12,2) NOT NULL DEFAULT 0,
+  expense DECIMAL(12,2) NOT NULL DEFAULT 0,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT chk_cash_movement_one_side CHECK ((income > 0 AND expense = 0) OR (expense > 0 AND income = 0))
+) ENGINE=InnoDB;
+
 INSERT IGNORE INTO automations (automation_key,name,enabled) VALUES
- ('intake','Recepción inteligente',1),('brake_diagnosis','Diagnóstico de frenos',1),
- ('maintenance_reminders','Recordatorio de mantenimiento',1),('inventory_alerts','Alerta de inventario',1),
+ ('intake','Recepción inteligente',0),('brake_diagnosis','Diagnóstico de frenos',0),
+ ('maintenance_reminders','Recordatorio de mantenimiento',0),('inventory_alerts','Alerta de inventario',0),
  ('daily_report','Informe diario J.A.R.V.I.S.',0),('sheets_sync','Sincronización con hoja',0);
+
+UPDATE automations SET enabled=0;
