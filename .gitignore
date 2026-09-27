@@ -1,0 +1,4 @@
+# Local runtime secrets and settings. Keep these out of version control.
+/api/config.php
+/integrations/jarvis-IA/Api-Key/api-key.txt
+/integrations/google-sheets/codes/

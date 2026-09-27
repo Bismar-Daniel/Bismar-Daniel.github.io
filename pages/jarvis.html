@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#071018">
+  <title>J.A.R.V.I.S. | Hall of Armor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.47.0/tabler-icons.min.css">
+  <link rel="stylesheet" href="../css/hall.css?v=20260926-4">
+  <link rel="stylesheet" href="../css/jarvis.css?v=20260926-1">
+</head>
+<body data-page="jarvis" data-title="J.A.R.V.I.S. IA">
+  <div id="app"></div>
+  <template id="page-view">
+    <section class="jarvis-console" aria-label="Asistente J.A.R.V.I.S.">
+      <div class="jarvis-topline"><span><i class="ti ti-hexagon-letter-h"></i> HALL OF ARMOR <b>/</b> INTELLIGENCE CORE</span><span class="jarvis-clock" id="jarvis-clock">SISTEMA EN LÍNEA</span></div>
+      <div class="jarvis-main">
+        <aside class="jarvis-identity">
+          <div class="jarvis-orb" aria-hidden="true"><div class="orb-ring ring-a"></div><div class="orb-ring ring-b"></div><div class="orb-ring ring-c"></div><div class="orb-core"><i class="ti ti-hexagon-letter-h"></i></div><div class="orb-scan"></div></div>
+          <div class="jarvis-ident-name">J.A.R.V.I.S.</div>
+          <div class="jarvis-ident-caption">ASISTENTE DE DIAGNÓSTICO</div>
+          <div class="jarvis-live"><span class="pulse"></span><span id="jarvis-state">ESPERANDO MENSAJE</span></div>
+          <div class="jarvis-divider"></div>
+          <div class="jarvis-readout"><span>ESPECIALIDAD</span><b>SISTEMAS DE FRENOS</b></div>
+          <div class="jarvis-readout"><span>PLATAFORMA</span><b>GEMINI · CANAL SEGURO</b></div>
+          <div class="jarvis-readout"><span>MEMORIA</span><b>HISTORIAL DE ESTE NAVEGADOR</b></div>
+          <div class="jarvis-visualizer" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="jarvis-side-note">HALL OF ARMOR <span>·</span> DIAGNÓSTICO ASISTIDO</div>
+        </aside>
+        <section class="jarvis-chat-panel">
+          <header class="jarvis-chat-head"><div><div class="eyebrow">INTERFAZ DE CONVERSACIÓN</div><h1>¿En qué puedo asistirle?</h1><p>Diagnóstico y orientación técnica para frenos convencionales, híbridos y eléctricos.</p></div><button class="jarvis-clear" id="jarvis-clear" type="button" title="Borrar historial de este navegador"><i class="ti ti-trash"></i><span>Limpiar</span></button></header>
+          <div class="jarvis-messages" id="jarvis-messages" role="log" aria-live="polite" aria-label="Conversación con J.A.R.V.I.S."></div>
+          <div class="jarvis-suggestions" id="jarvis-suggestions" aria-label="Consultas sugeridas">
+            <button type="button" data-prompt="Prepara una lista de seguridad para diagnosticar un pedal de freno esponjoso."><i class="ti ti-list-check"></i> Pedal esponjoso</button>
+            <button type="button" data-prompt="¿Qué precauciones debo tomar antes de trabajar en los frenos de un vehículo híbrido o eléctrico?"><i class="ti ti-bolt"></i> Seguridad EV / híbrido</button>
+            <button type="button" data-prompt="Ayúdame a estructurar un diagnóstico de una luz ABS encendida. Pregúntame los datos necesarios antes de concluir."><i class="ti ti-scan"></i> Luz ABS encendida</button>
+          </div>
+          <form class="jarvis-compose" id="jarvis-form">
+            <label class="sr-only" for="jarvis-input">Escribe un mensaje</label>
+            <textarea id="jarvis-input" name="message" rows="1" maxlength="3000" placeholder="Escriba su consulta técnica…" autocomplete="off" required></textarea>
+            <button class="jarvis-send" id="jarvis-send" type="submit" aria-label="Enviar mensaje"><i class="ti ti-arrow-up"></i></button>
+          </form>
+          <div class="jarvis-footnote"><i class="ti ti-lock"></i> Canal privado del taller <span>·</span> Verifique siempre los procedimientos con el manual del fabricante.</div>
+        </section>
+      </div>
+    </section>
+  </template>
+  <script src="../js/hall.js?v=20260926-7"></script>
+  <script src="../js/page-shell.js?v=20260926-7"></script>
+  <script src="../js/jarvis.js?v=20260926-1"></script>
+</body>
+</html>

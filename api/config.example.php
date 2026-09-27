@@ -5,4 +5,6 @@ return [
     'database' => 'hall_of_armor',
     'username' => 'root',
     'password' => '',
+    // Add a newly generated Gemini API key only to the private config.php file.
+    'gemini_api_key' => '',
 ];

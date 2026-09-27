@@ -8,6 +8,7 @@ El portal está organizado por carpetas según su función:
 - Estilos: `css/hall.css`.
 - Lógica común: `js/hall.js` y `js/page-shell.js`.
 - Servidor y datos: `api/` y `database/schema.sql`.
+- Asistente IA: `pages/jarvis.html`, `css/jarvis.css`, `js/jarvis.js` y el intermediario privado `api/jarvis.php`.
 
 La página inicial `index.html` abre `pages/vista-general.html`. Al iniciar, las secciones de órdenes, vehículos, inventario, caja, notificaciones, soporte y chat están vacías. Las automatizaciones comienzan apagadas. Sin XAMPP, los registros se guardan solo en el navegador; para una base de datos persistente, sirve la carpeta desde Apache de XAMPP y configura MySQL. No abras las páginas con doble clic.
 
@@ -19,6 +20,7 @@ El hosting de GitHub Pages solo ejecuta los archivos estáticos del sitio; no ej
 2. Inicia Apache y MySQL en el panel de XAMPP.
 3. En phpMyAdmin, importa `database/schema.sql`. Esto crea la base `hall_of_armor` y las tablas del sistema.
 4. Copia `api/config.example.php` como `api/config.php` y ajusta host, usuario y contraseña de MySQL. `config.php` está bloqueado por `.htaccess`.
+   Para J.A.R.V.I.S. IA, crea una clave Gemini nueva en Google AI Studio e introdúcela solo en el archivo privado `api/config.php`, en `'gemini_api_key' => 'TU_CLAVE_NUEVA'`. No la pongas en JavaScript, HTML, Git ni `config.example.php`. También puedes configurarla como variable de entorno `GEMINI_API_KEY` para Apache. El chat requiere iniciar sesión como administrador.
 5. Desde una consola de XAMPP, crea el administrador. Usa una contraseña larga y propia:
 
    ```powershell
@@ -34,5 +36,6 @@ El API exige sesión para leer y modificar órdenes, automatizaciones y movimien
 
 - Google Sheets: publica `integrations/google-sheets/Code.gs` como aplicación web y configura la URL `/exec` y el token en la pantalla de caja. Sigue `integrations/google-sheets/README.md`. El envío automático solo funciona después de autorizar y desplegar ese conector.
 - Chat en tiempo real: el chat es local al navegador; necesita un servicio WebSocket para sincronizar dispositivos.
+- J.A.R.V.I.S. IA: requiere PHP en Apache y una clave Gemini privada del lado del servidor. El historial de conversación queda guardado en el navegador actual. GitHub Pages no ejecuta PHP; para usar el modelo desde una publicación web se necesita alojar el endpoint PHP en un servidor con HTTPS.
 - Automatizaciones físicas: los interruptores guardan preferencias; conectar sensores, actuadores y J.A.R.V.I.S. real requiere hardware y un servicio local.
 - Publicación fuera de localhost: añade HTTPS, protección CSRF, política de contraseñas y permisos de red antes de exponer Apache.
