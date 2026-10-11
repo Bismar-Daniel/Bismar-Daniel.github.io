@@ -43,7 +43,7 @@ GitHub Pages solo sirve archivos estáticos; no ejecuta PHP y no puede alcanzar 
 El proyecto incluye `Dockerfile`, `railway.json` y `deploy/railway-entrypoint.sh` para alojar el sitio completo junto con PHP. GitHub sigue siendo el repositorio y cada push puede desplegarse desde la integración de Railway. La URL activa será la que genere Railway; GitHub Pages seguirá siendo estático y no compartirá la sesión/API.
 
 1. Crea un proyecto en Railway desde el repositorio `Bismar-Daniel/Bismar-Daniel.github.io` y selecciona la rama `main` (builder Dockerfile).
-2. Añade un servicio MySQL. Configura en el servicio web referencias a las variables de MySQL (`DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`) y deja `DB_AUTO_MIGRATE=true`; el arranque espera a MySQL y crea las tablas vacías de `schema.sql` de forma idempotente.
+2. Añade un servicio MySQL. En el servicio web configura estas referencias (Railway → Reference Variables): `DB_HOST=${{MySQL.MYSQLHOST}}`, `DB_PORT=${{MySQL.MYSQLPORT}}`, `DB_NAME=${{MySQL.MYSQLDATABASE}}`, `DB_USER=${{MySQL.MYSQLUSER}}` y `DB_PASSWORD=${{MySQL.MYSQLPASSWORD}}`. Cambia `MySQL` por el nombre exacto de tu servicio. Deja `DB_AUTO_MIGRATE=true`; el arranque espera a MySQL y crea las tablas vacías de `schema.sql` de forma idempotente.
 3. Genera el dominio HTTPS del servicio web. Añade `GEMINI_API_KEY` como variable privada solo si usarás J.A.R.V.I.S.
 4. En la consola/shell del servicio web ejecuta `php api/create-admin.php correo@tudominio.com "CONTRASENA-LARGA-DE-12-O-MAS" "Jefe de taller"` una vez.
 5. Abre el dominio de Railway e inicia sesión. Usa esa URL en todos tus dispositivos.

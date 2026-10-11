@@ -15,7 +15,7 @@ Alojar PHP y MySQL en internet para que el taller y su administrador puedan inic
 
 1. Conectar en Railway el repositorio `Bismar-Daniel/Bismar-Daniel.github.io`, rama `main`.
 2. Añadir el servicio MySQL y un volumen persistente. Verificar que el almacenamiento sobreviva a despliegues y revisar backups.
-3. En el servicio web referenciar `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER` y `DB_PASSWORD` desde el servicio MySQL; mantener `DB_AUTO_MIGRATE=true`.
+3. En el servicio web añadir estas referencias (cambia `MySQL` por el nombre exacto del servicio): `DB_HOST=${{MySQL.MYSQLHOST}}`, `DB_PORT=${{MySQL.MYSQLPORT}}`, `DB_NAME=${{MySQL.MYSQLDATABASE}}`, `DB_USER=${{MySQL.MYSQLUSER}}` y `DB_PASSWORD=${{MySQL.MYSQLPASSWORD}}`. Mantener `DB_AUTO_MIGRATE=true`.
 4. Añadir `GEMINI_API_KEY` como secreto solo si se usará el asistente.
 5. Generar dominio HTTPS, esperar a que el healthcheck responda y crear el administrador con `php api/create-admin.php ...` en la Shell del servicio.
 6. Abrir el dominio HTTPS de Railway desde cada dispositivo. La URL `github.io` sigue sirviendo una página estática y no es el acceso al sistema con datos.
