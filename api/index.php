@@ -90,6 +90,41 @@ try {
         require_role(['usuario','mecanico','admin','soporte']);
         respond(200,['id'=>(int)$_SESSION['user_id'],'name'=>$_SESSION['user_name'] ?? '','role'=>$_SESSION['role']]);
     }
+    if ($method === 'GET' && $action === 'state') {
+        require_role(['usuario','mecanico','admin','soporte']);
+        $role = (string)$_SESSION['role'];
+        $allowed = $role === 'admin'
+            ? ['vehicles','inventory','notices','tickets','messages','autoLog','autoSettings','workshop','sheetConfig','jarvisHistory','dailyFlags','orderDetails']
+            : ($role === 'mecanico'
+                ? ['vehicles','inventory','notices','tickets','messages','autoLog','autoSettings','jarvisHistory','dailyFlags','orderDetails']
+                : ['notices','tickets','messages']);
+        $rows = $pdo->query('SELECT state_key,state_json FROM app_state')->fetchAll();
+        $state = [];
+        foreach ($rows as $row) if (in_array($row['state_key'], $allowed, true)) {
+            $value = json_decode($row['state_json'], true);
+            if (json_last_error() === JSON_ERROR_NONE) $state[$row['state_key']] = $value;
+        }
+        respond(200, ['state'=>$state]);
+    }
+    if ($method === 'PUT' && $action === 'state') {
+        require_role(['usuario','mecanico','admin','soporte']);
+        $role = (string)$_SESSION['role'];
+        $allowed = $role === 'admin'
+            ? ['vehicles','inventory','notices','tickets','messages','autoLog','autoSettings','workshop','sheetConfig','jarvisHistory','dailyFlags','orderDetails']
+            : ($role === 'mecanico'
+                ? ['vehicles','inventory','notices','tickets','messages','autoLog','autoSettings','jarvisHistory','dailyFlags','orderDetails']
+                : ['notices','tickets','messages']);
+        $state = body()['state'] ?? null;
+        if (!is_array($state) || count($state) > count($allowed)) respond(422,['error'=>'Estado inválido.']);
+        $stmt=$pdo->prepare('INSERT INTO app_state(state_key,state_json,updated_by) VALUES (?,?,?) ON DUPLICATE KEY UPDATE state_json=VALUES(state_json),updated_by=VALUES(updated_by)');
+        foreach ($state as $key=>$value) {
+            if (!is_string($key) || !in_array($key,$allowed,true)) respond(403,['error'=>'No tienes permiso para guardar esta sección.']);
+            $json=json_encode($value,JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+            if ($json===false || strlen($json)>1000000) respond(413,['error'=>'El contenido de la sección supera el límite permitido.']);
+            $stmt->execute([$key,$json,(int)$_SESSION['user_id']]);
+        }
+        respond(200,['ok'=>true]);
+    }
     if ($method === 'GET' && $action === 'users') {
         require_role(['admin']);
         $rows=$pdo->query('SELECT id,email,display_name AS name,role,status,created_at FROM users ORDER BY FIELD(status,"pendiente","activo","desactivado"),created_at DESC')->fetchAll();

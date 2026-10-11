@@ -97,9 +97,16 @@ CREATE TABLE IF NOT EXISTS cash_movements (
   CONSTRAINT chk_cash_movement_one_side CHECK ((income > 0 AND expense = 0) OR (expense > 0 AND income = 0))
 ) ENGINE=InnoDB;
 
+-- JSON-backed operational preferences and activity that do not need relational joins.
+CREATE TABLE IF NOT EXISTS app_state (
+  state_key VARCHAR(80) PRIMARY KEY,
+  state_json LONGTEXT NOT NULL,
+  updated_by INT UNSIGNED NULL,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT fk_app_state_user FOREIGN KEY(updated_by) REFERENCES users(id) ON DELETE SET NULL
+) ENGINE=InnoDB;
+
 INSERT IGNORE INTO automations (automation_key,name,enabled) VALUES
  ('intake','Recepción inteligente',0),('brake_diagnosis','Diagnóstico de frenos',0),
  ('maintenance_reminders','Recordatorio de mantenimiento',0),('inventory_alerts','Alerta de inventario',0),
  ('daily_report','Informe diario J.A.R.V.I.S.',0),('sheets_sync','Sincronización con hoja',0);
-
-UPDATE automations SET enabled=0;
