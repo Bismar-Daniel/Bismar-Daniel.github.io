@@ -1,4 +1,6 @@
 (()=>{
+// Retira las claves locales antiguas de Hall of Armor; el portal ya no persiste datos en el navegador.
+try{for(const key of Object.keys(localStorage))if(key.startsWith('hoa_v2_')||key==='hoa_jarvis_chat_v1')localStorage.removeItem(key)}catch{}
 const $=(q,r=document)=>r.querySelector(q),$$=(q,r=document)=>[...r.querySelectorAll(q)];
 const memoryFallback=new Map();const db={get(k,d){if(k.startsWith('dailyReport:'))return !!db.get('dailyFlags',{})[k.slice(12)];return memoryFallback.has(k)?memoryFallback.get(k):d},set(k,v){if(k.startsWith('dailyReport:')){const flags=db.get('dailyFlags',{});flags[k.slice(12)]=!!v;memoryFallback.set('dailyFlags',flags)}else memoryFallback.set(k,v);return true}};
 const escapeHtml=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
