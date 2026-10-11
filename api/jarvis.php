@@ -16,7 +16,22 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Allow: POST');
     jarvis_respond(405, ['error'=>'Este endpoint solo acepta solicitudes POST.']);
 }
-if (empty($_SESSION['admin_id'])) jarvis_respond(401, ['error'=>'Inicia sesión como administrador para usar J.A.R.V.I.S.']);
+if (empty($_SESSION['user_id'])) jarvis_respond(401, ['error'=>'Inicia sesión para usar J.A.R.V.I.S.']);
+$configPath = __DIR__.'/config.php';
+if (!is_file($configPath)) jarvis_respond(503, ['error'=>'Falta configurar la conexión local con MySQL.']);
+$config = require $configPath;
+try {
+    $pdo = new PDO('mysql:host='.$config['host'].';dbname='.$config['database'].';charset=utf8mb4', $config['username'], $config['password'], [PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE=>PDO::FETCH_ASSOC]);
+    $stmt = $pdo->prepare('SELECT role,status FROM users WHERE id=? LIMIT 1');
+    $stmt->execute([(int)$_SESSION['user_id']]);
+    $account = $stmt->fetch();
+} catch (Throwable $e) {
+    error_log('Hall of Armor JARVIS account check failed: '.$e->getMessage());
+    jarvis_respond(503, ['error'=>'No se pudo validar la cuenta en MySQL.']);
+}
+if (!$account || $account['status'] !== 'activo') jarvis_respond(401, ['error'=>'La cuenta ya no está activa. Inicia sesión de nuevo.']);
+$_SESSION['role'] = $account['role'];
+if (!in_array($account['role'], ['admin','mecanico'], true)) jarvis_respond(403, ['error'=>'J.A.R.V.I.S. está disponible para el administrador y el equipo mecánico.']);
 
 // Accept only same-origin browser requests when an Origin header is present.
 $origin = $_SERVER['HTTP_ORIGIN'] ?? '';
@@ -51,9 +66,7 @@ foreach ($messages as $message) {
 if (!$contents || end($contents)['role'] !== 'user') jarvis_respond(422, ['error'=>'Envía primero un mensaje para J.A.R.V.I.S.']);
 
 $key = trim((string)(getenv('GEMINI_API_KEY') ?: ''));
-$configPath = __DIR__.'/config.php';
 if ($key === '' && is_file($configPath)) {
-    $config = require $configPath;
     if (is_array($config)) $key = trim((string)($config['gemini_api_key'] ?? ''));
 }
 if ($key === '') jarvis_respond(503, ['error'=>'Falta configurar GEMINI_API_KEY en el servidor. Añádela como variable de entorno o en api/config.php.']);

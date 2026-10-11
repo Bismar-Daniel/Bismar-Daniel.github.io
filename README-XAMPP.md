@@ -12,6 +12,19 @@ El portal está organizado por carpetas según su función:
 
 La página inicial `index.html` abre `pages/vista-general.html`. Al iniciar, las secciones de órdenes, vehículos, inventario, caja, notificaciones, soporte y chat están vacías. Las automatizaciones comienzan apagadas. Sin XAMPP, los registros se guardan solo en el navegador; para una base de datos persistente, sirve la carpeta desde Apache de XAMPP y configura MySQL. No abras las páginas con doble clic.
 
+## Automatizaciones del taller
+
+Cada rutina se activa desde `pages/automatizaciones.html` (o el centro de control) y ejecuta acciones reales, con un registro de eventos visible en esa misma página y avisos en Notificaciones:
+
+- **Recepción inteligente**: al crear una orden, registra la solicitud (cliente, vehículo, tren motriz y síntoma) y deja la orden preparada para diagnóstico.
+- **Diagnóstico de frenos**: genera una lista de verificación según el tren motriz (convencional, híbrido o eléctrico) y el síntoma reportado. Se abre desde «Diagnóstico» en Órdenes de trabajo; al completar todos los pasos, la orden pasa a «En reparación».
+- **Recordatorio de mantenimiento**: programa la próxima inspección de cada vehículo (campo opcional en las fichas o botón «Programar») y avisa al cliente cuando falta una semana o menos, o cuando la fecha ya venció.
+- **Alerta de inventario**: notifica cuando un repuesto queda con stock igual o inferior a su mínimo y avisa cuando vuelve a subir.
+- **Informe diario J.A.R.V.I.S.**: al llegar a la hora de cierre configurada en Administrador (por defecto 18:00, con el portal abierto), genera el resumen del día: órdenes nuevas por estado e ingresos/egresos cobrados en caja. También se puede generar a mano con «Informe del día».
+- **Sincronización con hoja**: con el conector de Google Sheets configurado, envía la caja a la hoja automáticamente al registrar movimientos y cada 10 minutos mientras el portal esté abierto.
+
+El botón «Ejecutar rutinas» fuerza una pasada de recordatorios, alertas e informe pendiente sin esperar al reloj.
+
 El hosting de GitHub Pages solo ejecuta los archivos estáticos del sitio; no ejecuta PHP. Sin una API común, los datos de GitHub Pages se guardan en el almacenamiento del navegador y solo están disponibles en ese mismo dispositivo y navegador. Para compartir y guardar registros entre varios dispositivos, configura MySQL y una API accesible para todos desde un servidor (XAMPP local solo es accesible desde los dispositivos conectados a esa red, salvo que configures acceso remoto).
 
 ## Preparación de la base de datos
@@ -24,11 +37,19 @@ El hosting de GitHub Pages solo ejecuta los archivos estáticos del sitio; no ej
 5. Desde una consola de XAMPP, crea el administrador. Usa una contraseña larga y propia:
 
    ```powershell
-   cd C:\xampp\htdocs\app-web
+   cd C:\xampp\htdocs\hall-of-armor
    php api\create-admin.php admin@hallofarmor.local "CAMBIA-ESTA-POR-UNA-CONTRASENA-LARGA" "Jefe de taller"
    ```
 
 6. Abre `http://localhost/app-web/` e inicia sesión con esas credenciales.
+
+## Cuentas y perfiles
+
+El formulario de acceso permite entrar como usuario/cliente, mecánico, administrador o soporte. Los usuarios/ clientes se activan al registrarse; las solicitudes de mecánico y soporte quedan pendientes hasta que un administrador las apruebe desde `Administrador → Cuentas y permisos`. El registro público no permite crear administradores. La contraseña se guarda en MySQL usando `password_hash` y no se conserva en el navegador.
+
+Si el sitio ya estaba instalado antes de agregar las cuentas, aplica una sola vez la migración `database/migrations/2026-10-11-user-roles.sql` desde phpMyAdmin. La migración crea la tabla de cuentas y copia los hashes de los administradores existentes sin borrar registros. Para una instalación nueva, `database/schema.sql` ya incluye las tablas. Crea o actualiza al administrador desde la consola de XAMPP con `php api\create-admin.php correo contraseña-larga [nombre]`.
+
+El inicio de sesión con MySQL requiere abrir el portal mediante Apache, por ejemplo `http://localhost/hall-of-armor/`, no con doble clic ni desde GitHub Pages. GitHub Pages publica HTML, CSS y JavaScript, pero no ejecuta PHP ni puede conectarse a la base local de XAMPP; el acceso real a cuentas está disponible en la copia servida por XAMPP.
 
 El API exige sesión para leer y modificar órdenes, automatizaciones y movimientos de caja. La base MySQL empieza sin movimientos de caja; el saldo inicial calculado es Bs 0,00. La hoja de caja usa estas cinco columnas y en este orden: Fecha, Motivo, Ingresos, Egresos, Saldo. Los totales y el saldo acumulado se calculan desde los movimientos guardados. Las órdenes y preferencias de otras secciones conservan opciones locales cuando no está conectado el API.
 
