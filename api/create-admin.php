@@ -8,16 +8,15 @@ if (PHP_SAPI !== 'cli') {
 }
 
 $configPath = __DIR__ . '/config.php';
-
-if (!is_file($configPath)) {
-    fwrite(STDERR, "Crea api/config.php desde config.example.php primero.\n");
+if (is_file($configPath)) $config = require $configPath;
+else $config = ['host'=>getenv('DB_HOST') ?: getenv('MYSQLHOST'), 'port'=>getenv('DB_PORT') ?: getenv('MYSQLPORT') ?: '3306', 'database'=>getenv('DB_NAME') ?: getenv('MYSQLDATABASE'), 'username'=>getenv('DB_USER') ?: getenv('MYSQLUSER'), 'password'=>getenv('DB_PASSWORD') ?: getenv('MYSQLPASSWORD')];
+if (empty($config['host']) || empty($config['database']) || empty($config['username'])) {
+    fwrite(STDERR, "Configura api/config.php o las variables de entorno para MySQL.\n");
     exit(1);
 }
 
-$config = require $configPath;
-
 $pdo = new PDO(
-    'mysql:host=' . $config['host'] . ';dbname=' . $config['database'] . ';charset=utf8mb4',
+    'mysql:host=' . $config['host'] . ';port=' . ($config['port'] ?? '3306') . ';dbname=' . $config['database'] . ';charset=utf8mb4',
     $config['username'],
     $config['password'],
     [

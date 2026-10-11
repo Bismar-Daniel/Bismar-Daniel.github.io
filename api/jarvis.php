@@ -3,7 +3,8 @@ declare(strict_types=1);
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
 header('Cache-Control: no-store');
-session_set_cookie_params(['httponly'=>true, 'samesite'=>'Strict', 'secure'=>!empty($_SERVER['HTTPS'])]);
+$https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || strtolower((string)($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '')) === 'https';
+session_set_cookie_params(['httponly'=>true, 'samesite'=>'Strict', 'secure'=>$https]);
 session_start();
 
 function jarvis_respond(int $status, array $payload): never {
@@ -18,10 +19,11 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 if (empty($_SESSION['user_id'])) jarvis_respond(401, ['error'=>'Inicia sesión para usar J.A.R.V.I.S.']);
 $configPath = __DIR__.'/config.php';
-if (!is_file($configPath)) jarvis_respond(503, ['error'=>'Falta configurar la conexión local con MySQL.']);
-$config = require $configPath;
+if (is_file($configPath)) $config = require $configPath;
+else $config = ['host'=>getenv('DB_HOST') ?: getenv('MYSQLHOST'), 'port'=>getenv('DB_PORT') ?: getenv('MYSQLPORT') ?: '3306', 'database'=>getenv('DB_NAME') ?: getenv('MYSQLDATABASE'), 'username'=>getenv('DB_USER') ?: getenv('MYSQLUSER'), 'password'=>getenv('DB_PASSWORD') ?: getenv('MYSQLPASSWORD'), 'gemini_api_key'=>getenv('GEMINI_API_KEY') ?: ''];
+if (empty($config['host']) || empty($config['database']) || empty($config['username'])) jarvis_respond(503, ['error'=>'Falta configurar la conexión con MySQL en el servidor.']);
 try {
-    $pdo = new PDO('mysql:host='.$config['host'].';dbname='.$config['database'].';charset=utf8mb4', $config['username'], $config['password'], [PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE=>PDO::FETCH_ASSOC]);
+    $pdo = new PDO('mysql:host='.$config['host'].';port='.($config['port'] ?? '3306').';dbname='.$config['database'].';charset=utf8mb4', $config['username'], $config['password'] ?? '', [PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE=>PDO::FETCH_ASSOC]);
     $stmt = $pdo->prepare('SELECT role,status FROM users WHERE id=? LIMIT 1');
     $stmt->execute([(int)$_SESSION['user_id']]);
     $account = $stmt->fetch();

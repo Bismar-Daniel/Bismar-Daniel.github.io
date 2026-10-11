@@ -16,4 +16,4 @@
 
 ## Límites de despliegue
 
-XAMPP en localhost es un entorno local. GitHub Pages solo sirve el frontend estático y no interpreta PHP ni ofrece MySQL. Para persistencia compartida hace falta alojar el API y la base en un servicio accesible por HTTPS; revisar [[Publicación y límites de GitHub Pages]].
+XAMPP en localhost es un entorno local. GitHub Pages solo sirve el frontend estático y no interpreta PHP ni ofrece MySQL. Para persistencia compartida se preparó Docker/Railway para ejecutar el sitio completo y la base en un servicio HTTPS; revisar [[Despliegue en Railway]] y [[Publicación y límites de GitHub Pages]].

@@ -1,0 +1,10 @@
+.git
+.github
+.claude
+.freebuff
+api/config.php
+integrations/jarvis-IA/Api-Key/api-key.txt
+integrations/google-sheets/codes/
+**/*.sql.gz
+**/*.dump
+**/backup*

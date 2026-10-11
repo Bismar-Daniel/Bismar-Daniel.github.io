@@ -3,7 +3,8 @@ declare(strict_types=1);
 header('Content-Type: application/json; charset=utf-8');
 header('X-Content-Type-Options: nosniff');
 header('Cache-Control: no-store');
-session_set_cookie_params(['httponly'=>true, 'samesite'=>'Strict', 'secure'=>!empty($_SERVER['HTTPS'])]);
+$https = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') || strtolower((string)($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '')) === 'https';
+session_set_cookie_params(['httponly'=>true, 'samesite'=>'Strict', 'secure'=>$https]);
 session_start();
 
 function respond(int $status, array $data): never {
@@ -33,9 +34,10 @@ function require_role(array $roles): void {
 }
 try {
     $configPath = __DIR__ . '/config.php';
-    if (!is_file($configPath)) respond(503, ['error'=>'Copia api/config.example.php a api/config.php y configura MySQL']);
-    $c = require $configPath;
-    $pdo = new PDO('mysql:host='.$c['host'].';dbname='.$c['database'].';charset=utf8mb4', $c['username'], $c['password'], [PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE=>PDO::FETCH_ASSOC]);
+    if (is_file($configPath)) $c = require $configPath;
+    else $c = ['host'=>getenv('DB_HOST') ?: getenv('MYSQLHOST'), 'port'=>getenv('DB_PORT') ?: getenv('MYSQLPORT') ?: '3306', 'database'=>getenv('DB_NAME') ?: getenv('MYSQLDATABASE'), 'username'=>getenv('DB_USER') ?: getenv('MYSQLUSER'), 'password'=>getenv('DB_PASSWORD') ?: getenv('MYSQLPASSWORD')];
+    if (empty($c['host']) || empty($c['database']) || empty($c['username'])) respond(503, ['error'=>'Configura MySQL en api/config.php o en las variables de entorno DB_HOST, DB_NAME, DB_USER y DB_PASSWORD.']);
+    $pdo = new PDO('mysql:host='.$c['host'].';port='.($c['port'] ?? '3306').';dbname='.$c['database'].';charset=utf8mb4', $c['username'], $c['password'] ?? '', [PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE=>PDO::FETCH_ASSOC]);
     $method = $_SERVER['REQUEST_METHOD'];
     $action = $_GET['action'] ?? '';
     if ($method === 'POST' && $action === 'register') {

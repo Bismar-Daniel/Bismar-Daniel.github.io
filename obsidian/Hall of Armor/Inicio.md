@@ -15,6 +15,7 @@ Portal de operación para un solo taller de mecánica especializado en frenos co
 - [[API y sesiones]] · rutas, autenticación y permisos.
 - [[Automatizaciones]] · rutinas disponibles y límites.
 - [[Puesta en marcha con XAMPP]] · instalación y migraciones.
+- [[Despliegue en Railway]] · alojamiento PHP/MySQL para acceso desde dispositivos.
 - [[Publicación y límites de GitHub Pages]] · frontend estático y backend.
 - [[Integraciones]] · caja, Google Sheets y J.A.R.V.I.S.
 - [[Seguridad y mantenimiento]] · secretos, copias y operación segura.

@@ -38,6 +38,18 @@ MySQL es la fuente de verdad de caja. La hoja de cálculo es un destino de sincr
 
 GitHub Pages solo sirve archivos estáticos; no ejecuta PHP y no puede alcanzar la base MySQL de tu PC. El código estático puede estar en GitHub, pero las funciones que consultan o guardan datos requieren que el API PHP se publique en un hosting con HTTPS y una base accesible, configurando el cliente para apuntar a ese servidor. XAMPP en `localhost` sirve para usarlo en esa PC (y, con red/configuración adecuada, en la red local), no como backend público de la página de GitHub.
 
+## Hosting compartido (Railway)
+
+El proyecto incluye `Dockerfile`, `railway.json` y `deploy/railway-entrypoint.sh` para alojar el sitio completo junto con PHP. GitHub sigue siendo el repositorio y cada push puede desplegarse desde la integración de Railway. La URL activa será la que genere Railway; GitHub Pages seguirá siendo estático y no compartirá la sesión/API.
+
+1. Crea un proyecto en Railway desde el repositorio `Bismar-Daniel/Bismar-Daniel.github.io` y selecciona la rama `main` (builder Dockerfile).
+2. Añade un servicio MySQL. Configura en el servicio web referencias a las variables de MySQL (`DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`) y deja `DB_AUTO_MIGRATE=true`; el arranque espera a MySQL y crea las tablas vacías de `schema.sql` de forma idempotente.
+3. Genera el dominio HTTPS del servicio web. Añade `GEMINI_API_KEY` como variable privada solo si usarás J.A.R.V.I.S.
+4. En la consola/shell del servicio web ejecuta `php api/create-admin.php correo@tudominio.com "CONTRASENA-LARGA-DE-12-O-MAS" "Jefe de taller"` una vez.
+5. Abre el dominio de Railway e inicia sesión. Usa esa URL en todos tus dispositivos.
+
+La base se aloja en MySQL del proveedor, no dentro de GitHub. No subas dumps reales. Confirma el costo y el almacenamiento persistente del servicio MySQL antes de activarlo; XAMPP local y GitHub Pages no son una base de datos compartida.
+
 ## Obsidian
 
 Abre `obsidian/Hall of Armor/` como vault o copia la carpeta dentro de uno existente. Empieza por `Inicio.md`; sus enlaces recorren arquitectura, páginas, API, datos, rutinas, puesta en marcha y publicación. Las notas no incluyen configuración privada.
